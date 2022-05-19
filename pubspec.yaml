@@ -29,6 +29,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  ed25519_signing_plugin:
+    path: ./ed25519_signing_plugin
+  flutter_rust_bridge:
+    path: ./frb_dart
 
 
   # The following adds the Cupertino Icons font to your application.
