@@ -1,2 +1,1 @@
-# dkms-demo
-DKMS demo for Android
+A simple command-line application.
