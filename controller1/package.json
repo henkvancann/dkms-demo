@@ -1,0 +1,14 @@
+{
+  "name": "controller1_oobi_qr_code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "EUPL1.2",
+  "dependencies": {
+    "qrcode-terminal": "^0.12.0"
+  }
+}
