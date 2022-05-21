@@ -38,7 +38,7 @@ abstract class KeriDart {
 
   Future<String> addWatcher(
       {required Controller controller,
-      required String watcherId,
+      required String watcherOobi,
       dynamic hint});
 
   Future<void> finalizeEvent(
@@ -50,7 +50,9 @@ abstract class KeriDart {
   Future<void> resolveOobi({required String oobiJson, dynamic hint});
 
   Future<void> propagateOobi(
-      {required Controller controller, required String oobiJson, dynamic hint});
+      {required Controller controller,
+      required String oobisJson,
+      dynamic hint});
 
   Future<void> query(
       {required Controller controller, required String queryId, dynamic hint});
@@ -62,7 +64,7 @@ abstract class KeriDart {
   Future<String> getKelByStr({required String contId, dynamic hint});
 
   /// Returns pairs: public key encoded in base64 and signature encoded in hex
-  Future<List<PublicKeySignaturePair>> parseAttachment(
+  Future<List<PublicKeySignaturePair>> getCurrentPublicKey(
       {required String attachment, dynamic hint});
 }
 
@@ -253,19 +255,19 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
 
   Future<String> addWatcher(
           {required Controller controller,
-          required String watcherId,
+          required String watcherOobi,
           dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
         callFfi: (port_) => inner.wire_add_watcher(
             port_,
             _api2wire_box_autoadd_controller(controller),
-            _api2wire_String(watcherId)),
+            _api2wire_String(watcherOobi)),
         parseSuccessData: _wire2api_String,
         constMeta: const FlutterRustBridgeTaskConstMeta(
           debugName: "add_watcher",
-          argNames: ["controller", "watcherId"],
+          argNames: ["controller", "watcherOobi"],
         ),
-        argValues: [controller, watcherId],
+        argValues: [controller, watcherOobi],
         hint: hint,
       ));
 
@@ -304,19 +306,19 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
 
   Future<void> propagateOobi(
           {required Controller controller,
-          required String oobiJson,
+          required String oobisJson,
           dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
         callFfi: (port_) => inner.wire_propagate_oobi(
             port_,
             _api2wire_box_autoadd_controller(controller),
-            _api2wire_String(oobiJson)),
+            _api2wire_String(oobisJson)),
         parseSuccessData: _wire2api_unit,
         constMeta: const FlutterRustBridgeTaskConstMeta(
           debugName: "propagate_oobi",
-          argNames: ["controller", "oobiJson"],
+          argNames: ["controller", "oobisJson"],
         ),
-        argValues: [controller, oobiJson],
+        argValues: [controller, oobisJson],
         hint: hint,
       ));
 
@@ -377,14 +379,14 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
         hint: hint,
       ));
 
-  Future<List<PublicKeySignaturePair>> parseAttachment(
+  Future<List<PublicKeySignaturePair>> getCurrentPublicKey(
           {required String attachment, dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
-        callFfi: (port_) =>
-            inner.wire_parse_attachment(port_, _api2wire_String(attachment)),
+        callFfi: (port_) => inner.wire_get_current_public_key(
+            port_, _api2wire_String(attachment)),
         parseSuccessData: _wire2api_list_public_key_signature_pair,
         constMeta: const FlutterRustBridgeTaskConstMeta(
-          debugName: "parse_attachment",
+          debugName: "get_current_public_key",
           argNames: ["attachment"],
         ),
         argValues: [attachment],
@@ -734,12 +736,12 @@ class KeriDartWire implements FlutterRustBridgeWireBase {
   void wire_add_watcher(
     int port_,
     ffi.Pointer<wire_Controller> controller,
-    ffi.Pointer<wire_uint_8_list> watcher_id,
+    ffi.Pointer<wire_uint_8_list> watcher_oobi,
   ) {
     return _wire_add_watcher(
       port_,
       controller,
-      watcher_id,
+      watcher_oobi,
     );
   }
 
@@ -796,12 +798,12 @@ class KeriDartWire implements FlutterRustBridgeWireBase {
   void wire_propagate_oobi(
     int port_,
     ffi.Pointer<wire_Controller> controller,
-    ffi.Pointer<wire_uint_8_list> oobi_json,
+    ffi.Pointer<wire_uint_8_list> oobis_json,
   ) {
     return _wire_propagate_oobi(
       port_,
       controller,
-      oobi_json,
+      oobis_json,
     );
   }
 
@@ -884,21 +886,21 @@ class KeriDartWire implements FlutterRustBridgeWireBase {
   late final _wire_get_kel_by_str = _wire_get_kel_by_strPtr
       .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
 
-  void wire_parse_attachment(
+  void wire_get_current_public_key(
     int port_,
     ffi.Pointer<wire_uint_8_list> attachment,
   ) {
-    return _wire_parse_attachment(
+    return _wire_get_current_public_key(
       port_,
       attachment,
     );
   }
 
-  late final _wire_parse_attachmentPtr = _lookup<
+  late final _wire_get_current_public_keyPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Int64,
-              ffi.Pointer<wire_uint_8_list>)>>('wire_parse_attachment');
-  late final _wire_parse_attachment = _wire_parse_attachmentPtr
+              ffi.Pointer<wire_uint_8_list>)>>('wire_get_current_public_key');
+  late final _wire_get_current_public_key = _wire_get_current_public_keyPtr
       .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
 
   ffi.Pointer<wire_StringList> new_StringList(

@@ -28,15 +28,15 @@ class _ScannerState extends State<Scanner> {
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      controller!.pauseCamera();
+      controller.pauseCamera();
     } else if (Platform.isIOS) {
-      controller!.resumeCamera();
+      controller.resumeCamera();
     }
   }
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
