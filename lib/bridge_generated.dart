@@ -12,7 +12,10 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'dart:ffi' as ffi;
 
 abstract class KeriDart {
-  Future<void> initKel({required String inputAppDir, dynamic hint});
+  Future<Config> initialOobis({required String oobisJson, dynamic hint});
+
+  Future<void> initKel(
+      {required String inputAppDir, Config? knownOobis, dynamic hint});
 
   Future<String> incept(
       {required List<PublicKey> publicKeys,
@@ -54,11 +57,21 @@ abstract class KeriDart {
 
   Future<void> processStream({required String stream, dynamic hint});
 
-  Future<String> getKel({required String id, dynamic hint});
+  Future<String> getKel({required Controller cont, dynamic hint});
+
+  Future<String> getKelByStr({required String contId, dynamic hint});
 
   /// Returns pairs: public key encoded in base64 and signature encoded in hex
   Future<List<PublicKeySignaturePair>> parseAttachment(
       {required String attachment, dynamic hint});
+}
+
+class Config {
+  final String initialOobis;
+
+  Config({
+    required this.initialOobis,
+  });
 }
 
 class Controller {
@@ -124,16 +137,32 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
 
   KeriDartImpl.raw(KeriDartWire inner) : super(inner);
 
-  Future<void> initKel({required String inputAppDir, dynamic hint}) =>
+  Future<Config> initialOobis({required String oobisJson, dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
         callFfi: (port_) =>
-            inner.wire_init_kel(port_, _api2wire_String(inputAppDir)),
+            inner.wire_initial_oobis(port_, _api2wire_String(oobisJson)),
+        parseSuccessData: _wire2api_config,
+        constMeta: const FlutterRustBridgeTaskConstMeta(
+          debugName: "initial_oobis",
+          argNames: ["oobisJson"],
+        ),
+        argValues: [oobisJson],
+        hint: hint,
+      ));
+
+  Future<void> initKel(
+          {required String inputAppDir, Config? knownOobis, dynamic hint}) =>
+      executeNormal(FlutterRustBridgeTask(
+        callFfi: (port_) => inner.wire_init_kel(
+            port_,
+            _api2wire_String(inputAppDir),
+            _api2wire_opt_box_autoadd_config(knownOobis)),
         parseSuccessData: _wire2api_unit,
         constMeta: const FlutterRustBridgeTaskConstMeta(
           debugName: "init_kel",
-          argNames: ["inputAppDir"],
+          argNames: ["inputAppDir", "knownOobis"],
         ),
-        argValues: [inputAppDir],
+        argValues: [inputAppDir, knownOobis],
         hint: hint,
       ));
 
@@ -322,15 +351,29 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
         hint: hint,
       ));
 
-  Future<String> getKel({required String id, dynamic hint}) =>
+  Future<String> getKel({required Controller cont, dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
-        callFfi: (port_) => inner.wire_get_kel(port_, _api2wire_String(id)),
+        callFfi: (port_) =>
+            inner.wire_get_kel(port_, _api2wire_box_autoadd_controller(cont)),
         parseSuccessData: _wire2api_String,
         constMeta: const FlutterRustBridgeTaskConstMeta(
           debugName: "get_kel",
-          argNames: ["id"],
+          argNames: ["cont"],
         ),
-        argValues: [id],
+        argValues: [cont],
+        hint: hint,
+      ));
+
+  Future<String> getKelByStr({required String contId, dynamic hint}) =>
+      executeNormal(FlutterRustBridgeTask(
+        callFfi: (port_) =>
+            inner.wire_get_kel_by_str(port_, _api2wire_String(contId)),
+        parseSuccessData: _wire2api_String,
+        constMeta: const FlutterRustBridgeTaskConstMeta(
+          debugName: "get_kel_by_str",
+          argNames: ["contId"],
+        ),
+        argValues: [contId],
         hint: hint,
       ));
 
@@ -361,6 +404,12 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
     return ans;
   }
 
+  ffi.Pointer<wire_Config> _api2wire_box_autoadd_config(Config raw) {
+    final ptr = inner.new_box_autoadd_config();
+    _api_fill_to_wire_config(raw, ptr.ref);
+    return ptr;
+  }
+
   ffi.Pointer<wire_Controller> _api2wire_box_autoadd_controller(
       Controller raw) {
     final ptr = inner.new_box_autoadd_controller();
@@ -387,6 +436,10 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
     return ans;
   }
 
+  ffi.Pointer<wire_Config> _api2wire_opt_box_autoadd_config(Config? raw) {
+    return raw == null ? ffi.nullptr : _api2wire_box_autoadd_config(raw);
+  }
+
   int _api2wire_signature_type(SignatureType raw) {
     return raw.index;
   }
@@ -407,6 +460,11 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
 
   // Section: api_fill_to_wire
 
+  void _api_fill_to_wire_box_autoadd_config(
+      Config apiObj, ffi.Pointer<wire_Config> wireObj) {
+    _api_fill_to_wire_config(apiObj, wireObj.ref);
+  }
+
   void _api_fill_to_wire_box_autoadd_controller(
       Controller apiObj, ffi.Pointer<wire_Controller> wireObj) {
     _api_fill_to_wire_controller(apiObj, wireObj.ref);
@@ -417,9 +475,18 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
     _api_fill_to_wire_signature(apiObj, wireObj.ref);
   }
 
+  void _api_fill_to_wire_config(Config apiObj, wire_Config wireObj) {
+    wireObj.initial_oobis = _api2wire_String(apiObj.initialOobis);
+  }
+
   void _api_fill_to_wire_controller(
       Controller apiObj, wire_Controller wireObj) {
     wireObj.identifier = _api2wire_String(apiObj.identifier);
+  }
+
+  void _api_fill_to_wire_opt_box_autoadd_config(
+      Config? apiObj, ffi.Pointer<wire_Config> wireObj) {
+    if (apiObj != null) _api_fill_to_wire_box_autoadd_config(apiObj, wireObj);
   }
 
   void _api_fill_to_wire_public_key(PublicKey apiObj, wire_PublicKey wireObj) {
@@ -436,6 +503,15 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
 // Section: wire2api
 String _wire2api_String(dynamic raw) {
   return raw as String;
+}
+
+Config _wire2api_config(dynamic raw) {
+  final arr = raw as List<dynamic>;
+  if (arr.length != 1)
+    throw Exception('unexpected arr length: expect 1 but see ${arr.length}');
+  return Config(
+    initialOobis: _wire2api_String(arr[0]),
+  );
 }
 
 Controller _wire2api_controller(dynamic raw) {
@@ -526,22 +602,42 @@ class KeriDartWire implements FlutterRustBridgeWireBase {
           lookup)
       : _lookup = lookup;
 
+  void wire_initial_oobis(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> oobis_json,
+  ) {
+    return _wire_initial_oobis(
+      port_,
+      oobis_json,
+    );
+  }
+
+  late final _wire_initial_oobisPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_initial_oobis');
+  late final _wire_initial_oobis = _wire_initial_oobisPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
   void wire_init_kel(
     int port_,
     ffi.Pointer<wire_uint_8_list> input_app_dir,
+    ffi.Pointer<wire_Config> known_oobis,
   ) {
     return _wire_init_kel(
       port_,
       input_app_dir,
+      known_oobis,
     );
   }
 
   late final _wire_init_kelPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_init_kel');
-  late final _wire_init_kel = _wire_init_kelPtr
-      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_Config>)>>('wire_init_kel');
+  late final _wire_init_kel = _wire_init_kelPtr.asFunction<
+      void Function(
+          int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_Config>)>();
 
   void wire_incept(
     int port_,
@@ -756,19 +852,36 @@ class KeriDartWire implements FlutterRustBridgeWireBase {
 
   void wire_get_kel(
     int port_,
-    ffi.Pointer<wire_uint_8_list> id,
+    ffi.Pointer<wire_Controller> cont,
   ) {
     return _wire_get_kel(
       port_,
-      id,
+      cont,
     );
   }
 
   late final _wire_get_kelPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_get_kel');
+              ffi.Int64, ffi.Pointer<wire_Controller>)>>('wire_get_kel');
   late final _wire_get_kel = _wire_get_kelPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_Controller>)>();
+
+  void wire_get_kel_by_str(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> cont_id,
+  ) {
+    return _wire_get_kel_by_str(
+      port_,
+      cont_id,
+    );
+  }
+
+  late final _wire_get_kel_by_strPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_get_kel_by_str');
+  late final _wire_get_kel_by_str = _wire_get_kel_by_strPtr
       .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_parse_attachment(
@@ -801,6 +914,16 @@ class KeriDartWire implements FlutterRustBridgeWireBase {
       'new_StringList');
   late final _new_StringList = _new_StringListPtr
       .asFunction<ffi.Pointer<wire_StringList> Function(int)>();
+
+  ffi.Pointer<wire_Config> new_box_autoadd_config() {
+    return _new_box_autoadd_config();
+  }
+
+  late final _new_box_autoadd_configPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<wire_Config> Function()>>(
+          'new_box_autoadd_config');
+  late final _new_box_autoadd_config = _new_box_autoadd_configPtr
+      .asFunction<ffi.Pointer<wire_Config> Function()>();
 
   ffi.Pointer<wire_Controller> new_box_autoadd_controller() {
     return _new_box_autoadd_controller();
@@ -886,6 +1009,10 @@ class wire_uint_8_list extends ffi.Struct {
 
   @ffi.Int32()
   external int len;
+}
+
+class wire_Config extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> initial_oobis;
 }
 
 class wire_PublicKey extends ffi.Struct {
