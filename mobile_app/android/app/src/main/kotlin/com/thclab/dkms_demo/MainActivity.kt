@@ -1,6 +1,6 @@
 package com.thclab.dkms_demo
 
-import io.flutter.embedding.android.FlutterActivity
+
 import android.content.Context
 import android.os.Build
 import android.os.Bundle

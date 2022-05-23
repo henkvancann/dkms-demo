@@ -45,3 +45,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+mobile_app/ed25519_signing_plugin/
+mobile_app/build/app/outputs/flutter-apk/app-debug.apk
+mobile_app/build/app/outputs/apk/debug/app-debug.apk
+mobile_app/build/app/outputs/flutter-apk/app.apk

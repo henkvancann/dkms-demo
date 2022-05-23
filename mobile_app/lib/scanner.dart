@@ -75,26 +75,28 @@ class _ScannerState extends State<Scanner> {
                 ),
               ),
               Expanded(
-                flex: 2,
-                child: Center(
-                  child: (result != null)
-                      ? Column(
-                    children: [
-                      Text( mode == 1 ? 'Watcher oobi: ${result!.code}' : mode == 2 ? 'issuer and witness oobi: ${result!.code}' : mode == 3 ? 'ACDC: ${result!.code}' :
-                       'Incorrect mode'),
-                      RawMaterialButton(
-                          onPressed: () {
-                            Navigator.pop(context, result!.code);
-                          },
-                          child: Text("Accept", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(width: 2, color: Colors.green)
-                          )
-                      ),
-                    ],
-                  )
-                      : Text('Scan a code'),
+                flex: 5,
+                child: SingleChildScrollView(
+                  child: Center(
+                    child: (result != null)
+                        ? Column(
+                      children: [
+                        Text( mode == 1 ? 'Watcher oobi: ${result!.code}' : mode == 2 ? 'Issuer and witness oobi: ${result!.code}' : mode == 3 ? 'ACDC: ${result!.code}' :
+                         'Incorrect mode'),
+                        RawMaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context, result!.code);
+                            },
+                            child: Text("Accept", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                                side: BorderSide(width: 2, color: Colors.green)
+                            )
+                        ),
+                      ],
+                    )
+                        : Text('Scan a code'),
+                  ),
                 ),
               )
             ],
@@ -108,7 +110,21 @@ class _ScannerState extends State<Scanner> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        result = scanData;
+        if(mode ==1){
+          if(scanData.code!.contains("eid") && scanData.code!.contains("scheme")){
+            result = scanData;
+          }
+        }
+        if(mode ==2){
+          if(scanData.code!.contains("cid") && scanData.code!.contains("role")){
+            result = scanData;
+          }
+        }
+        if(mode ==3){
+          if(scanData.code!.contains("issuer") && scanData.code!.contains("data")){
+            result = scanData;
+          }
+        }
       });
     });
   }
