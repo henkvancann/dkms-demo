@@ -12,8 +12,8 @@
 12         to allow setting breakpoints, to provide hot reload, etc.
 13    -->
 14    <uses-permission android:name="android.permission.INTERNET" />
-14-->C:\Users\66jus\Documents\GitHub\dkms-demo\mobile_app\android\app\src\debug\AndroidManifest.xml:6:5-66
-14-->C:\Users\66jus\Documents\GitHub\dkms-demo\mobile_app\android\app\src\debug\AndroidManifest.xml:6:22-64
+14-->C:\Users\66jus\Documents\GitHub\dkms-demo\controller2_mobile_app\android\app\src\debug\AndroidManifest.xml:6:5-66
+14-->C:\Users\66jus\Documents\GitHub\dkms-demo\controller2_mobile_app\android\app\src\debug\AndroidManifest.xml:6:22-64
 15    <uses-permission android:name="android.permission.CAMERA" /> <!-- Don't require camera, as this requires a rear camera. This allows it to work on the Nexus 7 -->
 15-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\66jus\.gradle\caches\transforms-2\files-2.1\a78aae525eeee02d8298c1969129f4cf\jetified-zxing-android-embedded-4.3.0\AndroidManifest.xml:22:5-65
 15-->[com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\66jus\.gradle\caches\transforms-2\files-2.1\a78aae525eeee02d8298c1969129f4cf\jetified-zxing-android-embedded-4.3.0\AndroidManifest.xml:22:22-62

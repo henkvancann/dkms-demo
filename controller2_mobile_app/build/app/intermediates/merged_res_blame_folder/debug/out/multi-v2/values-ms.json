@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\66jus\\Documents\\GitHub\\dkms-demo\\mobile_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ms\\values-ms.xml",
+            "outputFile": "C:\\Users\\66jus\\Documents\\GitHub\\dkms-demo\\controller2_mobile_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ms\\values-ms.xml",
             "map": [
                 {
                     "source": "C:\\Users\\66jus\\.gradle\\caches\\transforms-2\\files-2.1\\7ed8866a153ba11c73fe6ed707b862b7\\appcompat-1.4.1\\res\\values-ms\\values-ms.xml",

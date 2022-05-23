@@ -81,7 +81,7 @@ class _ScannerState extends State<Scanner> {
                     child: (result != null)
                         ? Column(
                       children: [
-                        Text( mode == 1 ? 'Watcher oobi: ${result!.code}' : mode == 2 ? 'Issuer and witness oobi: ${result!.code}' : mode == 3 ? 'ACDC: ${result!.code}' :
+                        Text( mode == 1 ? 'Watcher oobi: ${result!.code}' : mode == 2 ? 'Issuer oobi: ${result!.code}' : mode == 3 ? 'ACDC: ${result!.code}' :
                          'Incorrect mode'),
                         RawMaterialButton(
                             onPressed: () {

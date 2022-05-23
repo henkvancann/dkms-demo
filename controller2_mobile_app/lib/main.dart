@@ -57,6 +57,8 @@ class _MyAppState extends State<MyApp> {
   var kel;
   var sig2;
   var isVerified;
+  var key_sig_pair;
+  var toVerify = '';
   //var rotated;
   var add_watcher_message;
   //var attachment = '{"v":"ACDC10JSON00019e_","d":"EzSVC7-SuizvdVkpXmHQx5FhUElLjUOjCbgN81ymeWOE","s":"EWCeT9zTxaZkaC_3-amV2JtG6oUxNA36sCC0P5MI7Buw","i":"Ew-o5dU5WjDrxDBK4b4HrF82_rYb6MX6xsegjq4n0Y7M","a":{"d":"EbFNz3vOMBbzp5xmYRd6rijvq08DCe07bOR-DA5fzO6g","i":"EeWTHzoGK_dNn71CmJh-4iILvqHGXcqEoKGF4VUc6ZXI","dt":"2022-04-11T20:50:23.722739+00:00","LEI":"5493001KJTIIGC8Y1R17"},"e":{},"ri":"EoLNCdag8PlHpsIwzbwe7uVNcPE1mTr-e1o9nCIDPWgM"}-JAB6AABAAA--FABEw-o5dU5WjDrxDBK4b4HrF82_rYb6MX6xsegjq4n0Y7M0AAAAAAAAAAAAAAAAAAAAAAAEw-o5dU5WjDrxDBK4b4HrF82_rYb6MX6xsegjq4n0Y7M-AABAAKcvAE-GzYu4_aboNjC0vNOcyHZkm5Vw9-oGGtpZJ8pNdzVEOWhnDpCWYIYBAMVvzkwowFVkriY3nCCiBAf8JDw';
@@ -97,10 +99,6 @@ class _MyAppState extends State<MyApp> {
     return result;
   }
 
-  // Future<void> _generateNewKeys() async{
-  //   var x = await platform.invokeMethod('generateKeys');
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,6 +128,7 @@ class _MyAppState extends State<MyApp> {
                   List<PublicKey> vec2 = [];
                   vec2.add(PublicKey(algorithm: KeyType.Ed25519, key: next_b64_key));
                   List<String> vec3 = [];
+                  print("incept keys: ${vec1[0].key}, ${vec2[0].key}");
                   icp_event = await api.incept(publicKeys: vec1, nextPubKeys: vec2, witnesses: vec3, witnessThreshold: 0);
                   hex_signature = await signer.sign(icp_event);
                   print("Hex signature: $hex_signature");
@@ -217,8 +216,9 @@ class _MyAppState extends State<MyApp> {
                   var splitAcdc = acdc.split('-FAB');
                   print(splitAcdc);
                   var attachmentStream = '-FAB' + splitAcdc[1];
+                  toVerify = splitAcdc[0];
                   print(attachmentStream);
-                  var key_sig_pair = await api.getCurrentPublicKey(attachment: attachmentStream);
+                  key_sig_pair = await api.getCurrentPublicKey(attachment: attachmentStream);
                   print(key_sig_pair);
                 },
                 child: Text("Scan", style: TextStyle(fontWeight: FontWeight.bold),),
@@ -228,18 +228,35 @@ class _MyAppState extends State<MyApp> {
                 )
             ) : Container(),
             Text(acdc),
-
-
-            id != null ? Text("Getting kel for:", style: TextStyle(fontWeight: FontWeight.bold),) : Container(),
-            id != null ? Text("$id") : Container(),
-            SizedBox(height: 10,),
-            keyForAcdc!= null ?  Text("Public key:", style: TextStyle(fontWeight: FontWeight.bold),) : Container(),
-            keyForAcdc!= null ?  Text("$keyForAcdc") : Container(),
-            SizedBox(height: 10,),
-            signatureForAcdc!= null ?  Text("Signature:" , style: TextStyle(fontWeight: FontWeight.bold),) : Container(),
-            signatureForAcdc!= null ?  Text("$signatureForAcdc") : Container(),
-            SizedBox(height: 10,),
+            acdc.isNotEmpty ? Text('4. Verify ACDC:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),) : Container(),
+            acdc.isNotEmpty ? RawMaterialButton(
+                onPressed: () async{
+                  print(key_sig_pair[0].signature.key.toString());
+                  print(key_sig_pair[0].key.key.toString());
+                  isVerified = await _verify(toVerify.toString(), key_sig_pair[0].signature.key.toString(), key_sig_pair[0].key.key.toString());
+                  setState(() {
+                    
+                  });
+                },
+                child: Text("Verify", style: TextStyle(fontWeight: FontWeight.bold),),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(width: 2)
+                )
+            ) : Container(),
             isVerified != null ? (isVerified ? Text("Verification successful", style: TextStyle(color: Color(0xff21821e)),) : Text("Verification error", style: TextStyle(color: Color(0xff781a22)),)): Container(),
+
+
+            // id != null ? Text("Getting kel for:", style: TextStyle(fontWeight: FontWeight.bold),) : Container(),
+            // id != null ? Text("$id") : Container(),
+            // SizedBox(height: 10,),
+            // keyForAcdc!= null ?  Text("Public key:", style: TextStyle(fontWeight: FontWeight.bold),) : Container(),
+            // keyForAcdc!= null ?  Text("$keyForAcdc") : Container(),
+            // SizedBox(height: 10,),
+            // signatureForAcdc!= null ?  Text("Signature:" , style: TextStyle(fontWeight: FontWeight.bold),) : Container(),
+            // signatureForAcdc!= null ?  Text("$signatureForAcdc") : Container(),
+            // SizedBox(height: 10,),
+            // isVerified != null ? (isVerified ? Text("Verification successful", style: TextStyle(color: Color(0xff21821e)),) : Text("Verification error", style: TextStyle(color: Color(0xff781a22)),)): Container(),
             // Text("Aktualne klucze:"),
             // Text(key_pub_1),
             // Text(key_pub_2),

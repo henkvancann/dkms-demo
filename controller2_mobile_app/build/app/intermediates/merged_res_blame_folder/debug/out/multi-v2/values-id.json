@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\66jus\\Documents\\GitHub\\dkms-demo\\mobile_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-id\\values-id.xml",
+            "outputFile": "C:\\Users\\66jus\\Documents\\GitHub\\dkms-demo\\controller2_mobile_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-id\\values-id.xml",
             "map": [
                 {
                     "source": "C:\\Users\\66jus\\.gradle\\caches\\transforms-2\\files-2.1\\a78aae525eeee02d8298c1969129f4cf\\jetified-zxing-android-embedded-4.3.0\\res\\values-id\\values-id.xml",

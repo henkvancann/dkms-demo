@@ -37,9 +37,13 @@ class MainActivity: FlutterActivity() {
             // Note: this method is invoked on the main thread.
             if(call.method == "verify"){
                 val message = call.argument<String>("message")
+                println(message)
                 val signature = call.argument<String>("signature")
+                println(signature)
                 val key = call.argument<String>("key")
+                println(key)
                 var res = verify(key!!, message!!, lazySodium, signature!!)
+                println(res)
                 result.success(res);
             }
             else {
