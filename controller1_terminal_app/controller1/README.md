@@ -1,3 +1,0 @@
-## Running
-
-`node index.js`
