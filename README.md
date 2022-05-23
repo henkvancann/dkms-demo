@@ -1,3 +1,6 @@
+## Introduction
+
+This is a demonstration of DKMS infrastructure that presents its usage in practice. The demo consists of 2 controllers, where `controller1` is an issuer and `controller2` is a holder of digitally signed cryptograhpic material that attestates claims about the subject.
 
 ## Structure of this repo
 
@@ -7,8 +10,6 @@
 - `watcher_oobi_qr_code` – A simple app generating QR code containing Watcher OOBI
 
 ## Usage
-
-This is a demonstration of DKMS infrastructure that presents its usage in practice. The demo consists of 2 controllers, where `controller1` is an issuer and `controller2` is a holder of digitally signed cryptograhpic material that attestates claims about the subject.
 
 To run it:
 1. run `controller2` mobile app;
