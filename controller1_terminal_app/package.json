@@ -9,6 +9,7 @@
   "author": "",
   "license": "EUPL1.2",
   "dependencies": {
+    "inquirer": "^8.2.4",
     "qrcode-terminal": "^0.12.0"
   }
 }
