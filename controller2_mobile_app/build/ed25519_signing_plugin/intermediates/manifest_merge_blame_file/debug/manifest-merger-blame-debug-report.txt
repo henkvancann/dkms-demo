@@ -1,8 +1,0 @@
-1<?xml version="1.0" encoding="utf-8"?>
-2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.thc.ed25519_signing_plugin" >
-4
-5    <uses-sdk android:minSdkVersion="23" />
-5-->C:\Users\66jus\Documents\GitHub\dkms-demo\controller2_mobile_app\ed25519_signing_plugin\android\src\main\AndroidManifest.xml
-6
-7</manifest>

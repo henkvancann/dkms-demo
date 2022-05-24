@@ -1,2 +1,0 @@
-com/thc/ed25519_signing_plugin/BuildConfig.java
- com.thc.ed25519_signing_plugin.BuildConfig
