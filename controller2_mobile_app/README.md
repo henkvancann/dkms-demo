@@ -9,6 +9,7 @@ And install the app. Make sure to give it the permission to use camera (it is ne
 Platforms it has been tested on:
 - Android 6 (Successfully installed and opened but stopped working) ❌
 - Android 10 ✔️
+- Android 9 ✔️
 
 ## Compiling
 1. Make sure you have installed Android Studio and configured Flutter and Dart
