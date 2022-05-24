@@ -40,9 +40,6 @@ services:
     image: node:16.15-buster-slim
     environment:
       - "HOST_IP_ADDR"
-    command: ["./wait-for-it.sh", "watcher:3231", "-t", "3", "--", '/app/run.sh']
+    command: ['/app/run.sh']
     volumes:
       - ./watcher_oobi_qr_code:/app
-      - type: bind
-        source: ./wait-for-it.sh
-        target: /wait-for-it.sh
