@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.thclab.dkms_demo">
-   <application
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
         android:label="dkms_demo"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
