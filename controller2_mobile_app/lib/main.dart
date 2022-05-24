@@ -136,12 +136,8 @@ class _MyAppState extends State<MyApp> {
                     MaterialPageRoute(builder: (context) => const Scanner(mode: 2,)),
                   );
                   print("\nSending issuer oobi to watcher: $issuer_oobi");
-                  await api.propagateOobi(controller: controller, oobisJson: issuer_oobi);
                   print("Querying abour issuer kel...");
-                  var iss_id = "EnXSw7ziFZR1h2TgTII5oZpwRquvlguejE5a2-RFc4tY";
-                  await api.query(controller: controller, queryId: iss_id);
-                  var issuer_kel = await api.getKelByStr(contId: iss_id);
-                  print("Issuer kel: $issuer_kel");
+                  await api.query(controller: controller, oobisJson: issuer_oobi);
                   setState(() {
 
                   });

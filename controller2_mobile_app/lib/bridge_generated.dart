@@ -12,10 +12,11 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'dart:ffi' as ffi;
 
 abstract class KeriDart {
-  Future<Config> initialOobis({required String oobisJson, dynamic hint});
+  Future<Config> withInitialOobis(
+      {required Config config, required String oobisJson, dynamic hint});
 
   Future<void> initKel(
-      {required String inputAppDir, Config? knownOobis, dynamic hint});
+      {required String inputAppDir, Config? optionalConfigs, dynamic hint});
 
   Future<String> incept(
       {required List<PublicKey> publicKeys,
@@ -49,13 +50,13 @@ abstract class KeriDart {
 
   Future<void> resolveOobi({required String oobiJson, dynamic hint});
 
-  Future<void> propagateOobi(
+  Future<void> queryById(
+      {required Controller controller, required String queryId, dynamic hint});
+
+  Future<void> query(
       {required Controller controller,
       required String oobisJson,
       dynamic hint});
-
-  Future<void> query(
-      {required Controller controller, required String queryId, dynamic hint});
 
   Future<void> processStream({required String stream, dynamic hint});
 
@@ -139,32 +140,35 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
 
   KeriDartImpl.raw(KeriDartWire inner) : super(inner);
 
-  Future<Config> initialOobis({required String oobisJson, dynamic hint}) =>
+  Future<Config> withInitialOobis(
+          {required Config config, required String oobisJson, dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
-        callFfi: (port_) =>
-            inner.wire_initial_oobis(port_, _api2wire_String(oobisJson)),
+        callFfi: (port_) => inner.wire_with_initial_oobis(port_,
+            _api2wire_box_autoadd_config(config), _api2wire_String(oobisJson)),
         parseSuccessData: _wire2api_config,
         constMeta: const FlutterRustBridgeTaskConstMeta(
-          debugName: "initial_oobis",
-          argNames: ["oobisJson"],
+          debugName: "with_initial_oobis",
+          argNames: ["config", "oobisJson"],
         ),
-        argValues: [oobisJson],
+        argValues: [config, oobisJson],
         hint: hint,
       ));
 
   Future<void> initKel(
-          {required String inputAppDir, Config? knownOobis, dynamic hint}) =>
+          {required String inputAppDir,
+          Config? optionalConfigs,
+          dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
         callFfi: (port_) => inner.wire_init_kel(
             port_,
             _api2wire_String(inputAppDir),
-            _api2wire_opt_box_autoadd_config(knownOobis)),
+            _api2wire_opt_box_autoadd_config(optionalConfigs)),
         parseSuccessData: _wire2api_unit,
         constMeta: const FlutterRustBridgeTaskConstMeta(
           debugName: "init_kel",
-          argNames: ["inputAppDir", "knownOobis"],
+          argNames: ["inputAppDir", "optionalConfigs"],
         ),
-        argValues: [inputAppDir, knownOobis],
+        argValues: [inputAppDir, optionalConfigs],
         hint: hint,
       ));
 
@@ -304,39 +308,39 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
         hint: hint,
       ));
 
-  Future<void> propagateOobi(
-          {required Controller controller,
-          required String oobisJson,
-          dynamic hint}) =>
-      executeNormal(FlutterRustBridgeTask(
-        callFfi: (port_) => inner.wire_propagate_oobi(
-            port_,
-            _api2wire_box_autoadd_controller(controller),
-            _api2wire_String(oobisJson)),
-        parseSuccessData: _wire2api_unit,
-        constMeta: const FlutterRustBridgeTaskConstMeta(
-          debugName: "propagate_oobi",
-          argNames: ["controller", "oobisJson"],
-        ),
-        argValues: [controller, oobisJson],
-        hint: hint,
-      ));
-
-  Future<void> query(
+  Future<void> queryById(
           {required Controller controller,
           required String queryId,
           dynamic hint}) =>
       executeNormal(FlutterRustBridgeTask(
-        callFfi: (port_) => inner.wire_query(
+        callFfi: (port_) => inner.wire_query_by_id(
             port_,
             _api2wire_box_autoadd_controller(controller),
             _api2wire_String(queryId)),
         parseSuccessData: _wire2api_unit,
         constMeta: const FlutterRustBridgeTaskConstMeta(
-          debugName: "query",
+          debugName: "query_by_id",
           argNames: ["controller", "queryId"],
         ),
         argValues: [controller, queryId],
+        hint: hint,
+      ));
+
+  Future<void> query(
+          {required Controller controller,
+          required String oobisJson,
+          dynamic hint}) =>
+      executeNormal(FlutterRustBridgeTask(
+        callFfi: (port_) => inner.wire_query(
+            port_,
+            _api2wire_box_autoadd_controller(controller),
+            _api2wire_String(oobisJson)),
+        parseSuccessData: _wire2api_unit,
+        constMeta: const FlutterRustBridgeTaskConstMeta(
+          debugName: "query",
+          argNames: ["controller", "oobisJson"],
+        ),
+        argValues: [controller, oobisJson],
         hint: hint,
       ));
 
@@ -604,32 +608,35 @@ class KeriDartWire implements FlutterRustBridgeWireBase {
           lookup)
       : _lookup = lookup;
 
-  void wire_initial_oobis(
+  void wire_with_initial_oobis(
     int port_,
+    ffi.Pointer<wire_Config> config,
     ffi.Pointer<wire_uint_8_list> oobis_json,
   ) {
-    return _wire_initial_oobis(
+    return _wire_with_initial_oobis(
       port_,
+      config,
       oobis_json,
     );
   }
 
-  late final _wire_initial_oobisPtr = _lookup<
+  late final _wire_with_initial_oobisPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_initial_oobis');
-  late final _wire_initial_oobis = _wire_initial_oobisPtr
-      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Config>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_with_initial_oobis');
+  late final _wire_with_initial_oobis = _wire_with_initial_oobisPtr.asFunction<
+      void Function(
+          int, ffi.Pointer<wire_Config>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_init_kel(
     int port_,
     ffi.Pointer<wire_uint_8_list> input_app_dir,
-    ffi.Pointer<wire_Config> known_oobis,
+    ffi.Pointer<wire_Config> optional_configs,
   ) {
     return _wire_init_kel(
       port_,
       input_app_dir,
-      known_oobis,
+      optional_configs,
     );
   }
 
@@ -795,35 +802,35 @@ class KeriDartWire implements FlutterRustBridgeWireBase {
   late final _wire_resolve_oobi = _wire_resolve_oobiPtr
       .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
 
-  void wire_propagate_oobi(
+  void wire_query_by_id(
     int port_,
     ffi.Pointer<wire_Controller> controller,
-    ffi.Pointer<wire_uint_8_list> oobis_json,
+    ffi.Pointer<wire_uint_8_list> query_id,
   ) {
-    return _wire_propagate_oobi(
+    return _wire_query_by_id(
       port_,
       controller,
-      oobis_json,
+      query_id,
     );
   }
 
-  late final _wire_propagate_oobiPtr = _lookup<
+  late final _wire_query_by_idPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Controller>,
-              ffi.Pointer<wire_uint_8_list>)>>('wire_propagate_oobi');
-  late final _wire_propagate_oobi = _wire_propagate_oobiPtr.asFunction<
+              ffi.Pointer<wire_uint_8_list>)>>('wire_query_by_id');
+  late final _wire_query_by_id = _wire_query_by_idPtr.asFunction<
       void Function(
           int, ffi.Pointer<wire_Controller>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_query(
     int port_,
     ffi.Pointer<wire_Controller> controller,
-    ffi.Pointer<wire_uint_8_list> query_id,
+    ffi.Pointer<wire_uint_8_list> oobis_json,
   ) {
     return _wire_query(
       port_,
       controller,
-      query_id,
+      oobis_json,
     );
   }
 
