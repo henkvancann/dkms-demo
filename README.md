@@ -11,7 +11,7 @@ This is a demonstration of DKMS infrastructure that presents its usage in practi
 ## Usage
 
 To run it:
-1. run `controller2` mobile app;
+1. Get and install `controller2` mobile app;
 2. go to `watcher_oobi_qr_code` and scan the QR code from the `controller2` mobile app;
 3. go to `controller1_terminal_app`, run the app, from the main menu select "Witness QR code" and scan it from the `controller2` mobile app;
 4. having running `controller1` app, now select from the menu "issue ACDC" and follow the process. At the end ACDC QR code will be generated. Scan it from the `controller2` mobile app.
