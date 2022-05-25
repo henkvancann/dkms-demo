@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   witness1: &witness
-    image: humancolossus/keriox-witness:0.0.2
+    image: humancolossus/keriox-witness:0.0.4
     ports:
       - "3232:3232"
     volumes:
@@ -28,7 +28,7 @@ services:
         target: /app/witness-conf.json
 
   watcher:
-    image: humancolossus/keriox-watcher:0.0.2
+    image: humancolossus/keriox-watcher:0.0.4
     ports:
       - "3231:3232"
     volumes:
