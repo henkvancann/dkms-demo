@@ -35,11 +35,3 @@ services:
       - type: bind
         source: ./watcher.json
         target: /app/watcher-conf.json
-
-  watcher-oobi:
-    image: node:16.15-buster-slim
-    environment:
-      - "HOST_IP_ADDR"
-    command: ['/app/run.sh']
-    volumes:
-      - ./watcher_oobi_qr_code:/app
