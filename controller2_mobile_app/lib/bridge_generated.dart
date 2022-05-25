@@ -50,9 +50,6 @@ abstract class KeriDart {
 
   Future<void> resolveOobi({required String oobiJson, dynamic hint});
 
-  Future<void> queryById(
-      {required Controller controller, required String queryId, dynamic hint});
-
   Future<void> query(
       {required Controller controller,
       required String oobisJson,
@@ -305,24 +302,6 @@ class KeriDartImpl extends FlutterRustBridgeBase<KeriDartWire>
           argNames: ["oobiJson"],
         ),
         argValues: [oobiJson],
-        hint: hint,
-      ));
-
-  Future<void> queryById(
-          {required Controller controller,
-          required String queryId,
-          dynamic hint}) =>
-      executeNormal(FlutterRustBridgeTask(
-        callFfi: (port_) => inner.wire_query_by_id(
-            port_,
-            _api2wire_box_autoadd_controller(controller),
-            _api2wire_String(queryId)),
-        parseSuccessData: _wire2api_unit,
-        constMeta: const FlutterRustBridgeTaskConstMeta(
-          debugName: "query_by_id",
-          argNames: ["controller", "queryId"],
-        ),
-        argValues: [controller, queryId],
         hint: hint,
       ));
 
@@ -801,26 +780,6 @@ class KeriDartWire implements FlutterRustBridgeWireBase {
               ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_resolve_oobi');
   late final _wire_resolve_oobi = _wire_resolve_oobiPtr
       .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
-
-  void wire_query_by_id(
-    int port_,
-    ffi.Pointer<wire_Controller> controller,
-    ffi.Pointer<wire_uint_8_list> query_id,
-  ) {
-    return _wire_query_by_id(
-      port_,
-      controller,
-      query_id,
-    );
-  }
-
-  late final _wire_query_by_idPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_Controller>,
-              ffi.Pointer<wire_uint_8_list>)>>('wire_query_by_id');
-  late final _wire_query_by_id = _wire_query_by_idPtr.asFunction<
-      void Function(
-          int, ffi.Pointer<wire_Controller>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_query(
     int port_,

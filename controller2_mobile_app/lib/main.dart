@@ -91,6 +91,7 @@ class _MyAppState extends State<MyApp> {
 
                   });
                   String dbPath = await getLocalPath();
+                  dbPath = dbPath + '/new';
                   current_b64_key = await signer.getCurrentPubKey();
                   next_b64_key = await signer.getNextPubKey();
                   await api.initKel(inputAppDir: dbPath);
@@ -117,6 +118,7 @@ class _MyAppState extends State<MyApp> {
 
                   hex_sig = await signer.sign(add_watcher_message);
                   signature = Signature(algorithm: SignatureType.Ed25519Sha512, key: hex_sig);
+                  print("end role message signature: $hex_sig");
 
                   await api.finalizeEvent(identifier: controller, event: add_watcher_message, signature: signature);
                 },
