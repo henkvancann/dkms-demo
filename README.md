@@ -1,6 +1,6 @@
 ## Introduction
 
-This is a demonstration of DKMS infrastructure that presents its usage in practice. The demo consists of 2 controllers, where `controller1` is an issuer and `controller2` is a holder of digitally signed cryptograhpic material that attestates claims about the subject. Controllers communicate indirectly through the OOBI's and infrastructure.
+This is a demonstration of DKMS infrastructure that presents its usage in practice. The demo consists of 2 controllers, where `controller1` is an issuer and `controller2` is a holder of digitally signed cryptograhpic material that attestates claims about the subject. Controllers communicate indirectly by doing the OOBI's discovery through the infrastructure. For a comprehensive overview of what is going on under the hood, see https://hackmd.io/@bYQK_qO_RLa70okz8n7TQg/rkbCezoBc#Demo-step-by-step-from-the-DKMS-perspective .
 
 ## Structure of this repo
 
@@ -18,5 +18,3 @@ To run it:
 2. Using `controller2` mobile app scan the QR code printed to the STDOUT by `watcher_oobi_qr_code`;
 3. Go to `controller1_terminal_app`, run the app, from the main menu select `Perform introduction (OOBI via QR code)` and scan it from the `controller2` mobile app;
 4. having running `controller1` app, now select from the menu "Issue ACDC" and follow the process. At the end ACDC QR code will be generated. Scan it from the `controller2` mobile app.
-
-The complexity of the use case is well described here: https://hackmd.io/@bYQK_qO_RLa70okz8n7TQg/rkbCezoBc#Demo-step-by-step-from-the-DKMS-perspective
