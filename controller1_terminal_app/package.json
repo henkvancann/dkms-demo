@@ -10,6 +10,8 @@
   "license": "EUPL1.2",
   "dependencies": {
     "inquirer": "^8.2.4",
-    "qrcode-terminal": "^0.12.0"
+    "keri.js": "^0.2.3",
+    "qrcode-terminal": "^0.12.0",
+    "tweetnacl": "^1.0.3"
   }
 }
