@@ -16,3 +16,8 @@ Platforms it has been tested on:
 2. Open the `controller2_mobile_app` directory in Android Studio
 3. Run `flutter pub get`
 4. Run the `main.dart` file in `controller2_mobile_app/lib/`
+
+## Building apk
+1. Open the `controller2_mobile_app` directory in Android Studio
+2. Run in Android Studio terminal `flutter build apk --split-per-abi`
+3. Find the suitable file for your device in `build/app/outputs/flutter-apk`. For most cases it will be `app-arm64-v8a-release`.
