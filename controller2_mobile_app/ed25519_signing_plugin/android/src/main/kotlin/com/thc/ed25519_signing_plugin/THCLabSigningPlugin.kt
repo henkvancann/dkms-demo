@@ -553,11 +553,11 @@ public class THCLabSigningPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
     }
   }
 
-  fun registerWith(registrar: PluginRegistry.Registrar) {
-    activity = registrar.activity()
-    val channel = MethodChannel(registrar.messenger(), "ed25519_signing_plugin")
-    channel.setMethodCallHandler(THCLabSigningPlugin())
-  }
+//  fun registerWith(registrar: PluginRegistry.Registrar) {
+//    activity = registrar.activity()
+//    val channel = MethodChannel(registrar.messenger(), "ed25519_signing_plugin")
+//    channel.setMethodCallHandler(THCLabSigningPlugin())
+//  }
 
 }
 
