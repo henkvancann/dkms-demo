@@ -3,7 +3,7 @@ Folder containing the mobile app in Flutter.
 ## Running
 Scan the QR code below:
 
-![image](https://user-images.githubusercontent.com/83274413/170118664-d4b5af5f-6a18-4b0c-a5ec-6b2a1df5345d.png)
+![image](https://user-images.githubusercontent.com/83274413/176196207-3110f5cd-ceb6-456c-bfae-60a6d726ff3a.png)
 
 And install the app. Make sure to give it the permission to use camera (it is necessary to scan QR codes inside). Also, make sure you have a screen lock set up.
 Platforms it has been tested on:
