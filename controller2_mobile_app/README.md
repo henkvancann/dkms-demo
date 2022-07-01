@@ -44,6 +44,14 @@ Platforms DKMS-DEMO has been tested on:
 2. Compare the logo.
 3. Install and open the app.
 
+### How to find, install and configure the right version of Flutter
+{TBW, which ones will it be??! Provide links to the Google Play Library??!}
+
+<img src="../images/flutter-dart-guessing-game1.jpeg" alt="" border="1" width="250"> 
+<img src="../images/flutter-dart-guessing-game2.jpeg" alt="" border="1" width="250"> 
+<img src="../images/flutter-dart-guessing-game3.jpeg" alt="" border="1" width="250">
+<img src="../images/flutter-dart-guessing-game4.jpeg" alt="" border="1" width="250">
+  
 HvC: I stopped here on July 1th 2022, so below still has to be tested and to be made more **verbose**.
 
 1. Make sure you have installed Android Studio on your device and configured Flutter and Dart
