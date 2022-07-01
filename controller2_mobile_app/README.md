@@ -38,7 +38,7 @@ Platforms DKMS-DEMO has been tested on:
 
 ### Finding the right Android studio
 
-<img src="../images/android-studio-app.png" alt="android-studio-app-logo" border="1" width="250"> 
+<img src="../images/android-studio-app.jpeg" alt="android-studio-app-logo" border="1" width="250"> 
 
 1. Get the *Google Play* store and type Android Studio. 
 2. Compare the logo.
