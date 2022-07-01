@@ -32,11 +32,21 @@ Platforms DKMS-DEMO has been tested on:
 * Android 10 ✔️
 * Android 9 ✔️
 
-HvC: I stopped here on July 1th 2022, so below still has to be tested and to be made more **verbose**.
+
 
 ## Compiling
 
-1. Make sure you have installed Android Studio on your  and configured Flutter and Dart
+### Finding the right Android studio
+
+<img src="../images/android-studio-app.png" alt="android-studio-app-logo" border="1" width="250"> 
+
+1. Get the *Google Play* store and type Android Studio. 
+2. Compare the logo.
+3. Install and open the app.
+
+HvC: I stopped here on July 1th 2022, so below still has to be tested and to be made more **verbose**.
+
+1. Make sure you have installed Android Studio on your device and configured Flutter and Dart
 2. Open the `controller2_mobile_app` directory in Android Studio
 3. Run `flutter pub get`
 4. Run the `main.dart` file in `controller2_mobile_app/lib/`
